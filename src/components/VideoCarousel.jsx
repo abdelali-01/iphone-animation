@@ -27,6 +27,9 @@ export default function VideoCarousel() {
 
   // gsap animation setup
   useGSAP(() => {
+    gsap.to("#slider", {
+        transform : `translateX(${-100 * video.id}%)`,
+    })
     gsap.to("#video", {
       scrollTrigger: {
         trigger: "#video",
@@ -48,6 +51,52 @@ export default function VideoCarousel() {
     }
   }, [video.isPlaying, video.startPlay, loadedData, video.id]);
 
+  useEffect(() => {
+    let currentProgress = 0;
+    let span = videoSpanRef.current[video.id];
+
+    if (span) {
+      let animation = gsap.to(span, {
+        onUpdate: () => {
+          const progress = Math.ceil(animation.progress() * 100);
+          
+          if (progress != currentProgress) {
+            currentProgress = progress;
+
+            gsap.to(videoDivRef.current[video.id], {
+              width: `6vw`,
+            });
+
+            gsap.to(span, {
+                width: `${currentProgress}%`,
+                backgroundColor: "white",
+            });
+          }
+        },
+        onComplete: () => {
+            if(video.isPlaying){
+                gsap.to(videoDivRef.current[video.id], {
+                    width: `12px`,
+                });
+                gsap.to(span, {
+                    backgroundColor : "#99a1af",
+                })
+            }
+        }
+      });
+
+      const animationUpdate = () => {
+        animation.progress(videoRef.current[video.id].currentTime / hightlightsSlides[video.id].videoDuration);
+      }
+
+      if(video.isPlaying) {
+        gsap.ticker.add(animationUpdate);
+      }else {
+        gsap.ticker.remove(animationUpdate);
+      }
+    }
+  }, [video.id, video.isPlaying]);
+
   const handleLoadedData = (i, e) => {
     console.log(`Video ${i} metadata loaded`, e);
     setLoadedData((prev) => [...prev, e]);
@@ -56,7 +105,7 @@ export default function VideoCarousel() {
   const handleProccess = (type, i) => {
     switch (type) {
       case "video-end":
-        setVideo((prev) => ({ ...prev, isEnd: true, id: i + 1 }));
+        setVideo((prev) => ({ ...prev, isEnd: true, id: i+1 }));
         break;
       case "video-last":
         setVideo((prev) => ({ ...prev, isLast: true }));
@@ -90,6 +139,7 @@ export default function VideoCarousel() {
             <div className="video-carousel_container">
               <div className="h-full w-full rounded-3xl overflow-hidden bg-black">
                 <video
+                  className="w-full h-full object-cover"
                   id="video"
                   src={item.video}
                   muted
@@ -101,6 +151,11 @@ export default function VideoCarousel() {
                   onPlay={() => {
                     setVideo((prev) => ({ ...prev, isPlaying: true }));
                   }}
+                  onEnded={() => {
+                    i !== hightlightsSlides.length - 1
+                      ? handleProccess("video-end", i)
+                      : handleProccess("video-last", i);
+                  } }
                   onLoadedMetadata={(e) => {
                     console.log(`Loaded metadata for video ${i}:`, e);
                     handleLoadedData(i, e);
@@ -130,9 +185,12 @@ export default function VideoCarousel() {
               <div
                 key={index}
                 className="h-3 w-3 relative rounded-full bg-gray-400 mx-1 cursor-pointer"
+                  ref={(el) => {
+                    videoDivRef.current[index] = el;
+                  }}
               >
                 <span
-                  className="w-full h-full absolute rounded-full bg-white top-0 left-0"
+                  className="h-full absolute rounded-full bg-gray-400"
                   ref={(el) => {
                     videoSpanRef.current[index] = el;
                   }}
@@ -141,7 +199,11 @@ export default function VideoCarousel() {
             ))}
         </div>
 
-        <div className="bg-zinc-700 rounded-full h-full p-3 flex-center cursor-pointer">
+        <div className="bg-zinc-700 rounded-full h-full p-3 flex-center cursor-pointer"
+        onClick={()=>{
+            video.isLast ? handleProccess("video-reset") : handleProccess("play")
+        }}
+        >
           <img
             src={
               video.isLast ? replayImg : video.isPlaying ? pauseImg : playImg
