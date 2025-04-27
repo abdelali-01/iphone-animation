@@ -9,10 +9,13 @@ import ScrollTrigger from "gsap/src/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function VideoCarousel() {
+  // references to manage the videos and the span's of them
   const videoRef = useRef([]);
   const videoSpanRef = useRef([]);
   const videoDivRef = useRef([]);
 
+
+  // informations about the videoCarousel 
   const [video, setVideo] = useState({
     id: 0,
     isEnd: false,
@@ -20,6 +23,7 @@ export default function VideoCarousel() {
     isLast: false,
     isPlaying: false,
   });
+  // loadedData = loadedVideos
   const [loadedData, setLoadedData] = useState([]);
 
   console.log("video", video);
@@ -41,8 +45,9 @@ export default function VideoCarousel() {
     });
   }, [video.isEnd, video.id]);
 
+  
   useEffect(() => {
-    if (loadedData.length > 3) {
+    if (loadedData.length >= hightlightsSlides.length) {
       if (!video.isPlaying) {
         videoRef.current[video.id].pause();
       } else {
@@ -51,6 +56,8 @@ export default function VideoCarousel() {
     }
   }, [video.isPlaying, video.startPlay, loadedData, video.id]);
 
+
+  // check the progress of the video and update the span based on it 
   useEffect(() => {
     let currentProgress = 0;
     let span = videoSpanRef.current[video.id];
@@ -96,11 +103,20 @@ export default function VideoCarousel() {
       }
     }
   }, [video.id, video.isPlaying]);
-
+  
+  // we push the loaded video on the seloadedData when the video load
   const handleLoadedData = (i, e) => {
     console.log(`Video ${i} metadata loaded`, e);
     setLoadedData((prev) => [...prev, e]);
   };
+
+  //   force load all videos
+  useEffect(() => {
+    hightlightsSlides.forEach((_, i) => {
+      videoRef.current[i]?.load?.();
+    });
+  }, []);
+
 
   const handleProccess = (type, i) => {
     switch (type) {
@@ -122,14 +138,6 @@ export default function VideoCarousel() {
     }
   };
 
-  console.log("videoRef", videoRef.current);
-
-  //   force load all videos
-  useEffect(() => {
-    hightlightsSlides.forEach((_, i) => {
-      videoRef.current[i]?.load?.();
-    });
-  }, []);
 
   return (
     <>
