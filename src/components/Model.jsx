@@ -1,4 +1,4 @@
-import { Html, PerspectiveCamera, View } from '@react-three/drei'
+import { Html, OrbitControls, PerspectiveCamera, View } from '@react-three/drei'
 import React, { Suspense } from 'react'
 import Iphone from './Iphone'
 
@@ -19,7 +19,7 @@ export default function Model({index , gsapType , item , groupRef , controlRef ,
 
     <Lights />
 
-    {/* <OrbitControls 
+    <OrbitControls 
       makeDefault
       ref={controlRef}
       enableZoom={false}
@@ -27,7 +27,7 @@ export default function Model({index , gsapType , item , groupRef , controlRef ,
       rotateSpeed={0.4}
       target={new THREE.Vector3(0, 0 ,0)}
       onEnd={() => setRotationState(controlRef.current.getAzimuthalAngle())}
-    />  */}
+    /> 
 
     <group ref={groupRef} name={`${index === 1} ? 'small' : 'large`} position={[0, 0 ,0]}>
       <Suspense fallback={<Html><div>loading..</div></Html>}>

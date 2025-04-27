@@ -9,6 +9,7 @@ import { Canvas } from "@react-three/fiber";
 import { View } from "@react-three/drei";
 import { models, sizes } from "@/constants";
 import MyCanvas from "./MyCanvas";
+import { gsapTimelineAnimation } from "@/utils/animations";
 
 const ModelSection = () => {
   const [size, setSize] = useState("small");
@@ -30,6 +31,23 @@ const ModelSection = () => {
   const [smallRotation, setSmallRotaion] = useState(0);
   const [largeRotation, setLargeRotaion] = useState(0);
 
+  const tl = gsap.timeline();
+
+  useEffect(()=>{
+    if(size === 'small'){
+        gsapTimelineAnimation(tl , large , largeRotation , '#view2' , '#view1' , {
+            transform : 'translateX(0)',
+            duration : 2,
+        })
+    }
+    if(size === 'large'){
+        gsapTimelineAnimation(tl , small , smallRotation , '#view1' , '#view2' , {
+            transform : 'translateX(-100%)',
+            duration : 2,
+        })
+    }
+  },[size]);
+
   useGSAP(() => {
     gsap.to("#heading", {
       opacity: 1,
@@ -50,7 +68,7 @@ const ModelSection = () => {
               gsapType="view1"
               item={model}
               groupRef={small}
-              controllRef={cameraControllSmall}
+              controlRef={cameraControllSmall}
               setRotationState={setSmallRotaion}
               size={size}
             />
@@ -60,7 +78,7 @@ const ModelSection = () => {
               gsapType="view2"
               item={model}
               groupRef={large}
-              controllRef={cameraControllLarge}
+              controlRef={cameraControllLarge}
               setRotationState={setLargeRotaion}
               size={size}
             />
