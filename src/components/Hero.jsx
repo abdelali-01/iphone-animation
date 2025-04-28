@@ -33,7 +33,7 @@ export default function Hero() {
       </div>
 
       <div className="cta flex flex-col items-center opacity-0 translate-y-20" >
-        <Link href="#" id="#highlights" className="btn">Buy</Link>
+        <Link href="#" id="highlights" className="btn">Buy</Link>
         <p className="text-xl">From $199/month or 999$</p>
       </div>
     </div>
