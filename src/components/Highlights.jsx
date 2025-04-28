@@ -1,19 +1,17 @@
 "use client";
 import { rightImg, watchImg } from "@/utils";
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
 import Link from "next/link";
 import React from "react";
 import VideoCarousel from "./VideoCarousel";
+import { gsapAnimation } from "@/utils/animations";
 
 export default function Highlights() {
   useGSAP(() => {
-    gsap.to("#title", {
-      opacity: 1,
-      y: 0,
-    });
-    gsap.to(".link", { opacity: 1, duration: 1, stagger: 0.2 , y: 0 });
+    gsapAnimation('#title' , {y : 0 , opacity : 1});
+    gsapAnimation('.link' , { opacity: 1, duration: 1, stagger: 0.2 , y: 0 });
   }, []);
+  
   return (
     <section
       id="hightlights"

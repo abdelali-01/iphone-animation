@@ -1,8 +1,8 @@
-'use client'; // at the top if you're inside a component in app/ folder
+"use client"; // at the top if you're inside a component in app/ folder
 
-import { Canvas } from '@react-three/fiber';
-import { View } from '@react-three/drei';
-import { useState, useEffect } from 'react';
+import { Canvas } from "@react-three/fiber";
+import { View } from "@react-three/drei";
+import { useState, useEffect } from "react";
 
 export default function MyCanvas() {
   const [eventSource, setEventSource] = useState(null);
@@ -17,7 +17,12 @@ export default function MyCanvas() {
 
   return (
     <Canvas
-      className="w-full h-full fixed inset-0 overflow-hidden"
+      className="w-full h-full"
+      style={{
+        position: "fixed",
+        inset : 0 ,
+        overflow: "hidden",
+      }}
       eventSource={eventSource}
     >
       <View.Port />

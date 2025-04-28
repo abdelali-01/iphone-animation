@@ -1,3 +1,4 @@
+import Features from "@/components/Features";
 import Hero from "@/components/Hero";
 import Highlights from "@/components/Highlights";
 import ModelSection from "@/components/ModelSection";
@@ -10,6 +11,7 @@ export default function Home() {
       <Hero/>
       <Highlights/>
       <ModelSection/>
+      <Features/>
     </main>
   );
 }

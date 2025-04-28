@@ -1,17 +1,18 @@
 "use client";
 import { heroVideo, smallHeroVideo } from "@/utils";
+import { gsapAnimation } from "@/utils/animations";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Link from "next/link";
 
 export default function Hero() {
   useGSAP(() => {
-    gsap.to("#heroTitle", {
+    gsapAnimation("#heroTitle", {
       duration: 1.5,
       opacity: 1,
     });
 
-    gsap.to(".cta", {
+    gsapAnimation(".cta", {
       duration: 1,
       opacity: 1,
       y: -50,
@@ -26,13 +27,27 @@ export default function Hero() {
         </p>
 
         <div className="w-9/12 md:w-10/12">
-          <video src={heroVideo} autoPlay muted playsInline className="pointer-events-none hidden sm:block"></video>
-          <video src={smallHeroVideo} autoPlay muted playsInline className="pointer-events-none block sm:hidden max-h-[400px] m-auto"></video>
+          <video
+            src={heroVideo}
+            autoPlay
+            muted
+            playsInline
+            className="pointer-events-none hidden sm:block"
+          ></video>
+          <video
+            src={smallHeroVideo}
+            autoPlay
+            muted
+            playsInline
+            className="pointer-events-none block sm:hidden max-h-[400px] m-auto"
+          ></video>
         </div>
       </div>
 
-      <div className="cta flex flex-col items-center opacity-0 translate-y-20" >
-        <Link href="#" id="#highlights" className="btn">Buy</Link>
+      <div className="cta flex flex-col items-center opacity-0 translate-y-20">
+        <Link href="#" id="#highlights" className="btn">
+          Buy
+        </Link>
         <p className="text-xl">From $199/month or 999$</p>
       </div>
     </div>

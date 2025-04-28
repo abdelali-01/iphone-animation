@@ -9,7 +9,7 @@ import { Canvas } from "@react-three/fiber";
 import { View } from "@react-three/drei";
 import { models, sizes } from "@/constants";
 import MyCanvas from "./MyCanvas";
-import { gsapTimelineAnimation } from "@/utils/animations";
+import { gsapAnimation, gsapTimelineAnimation } from "@/utils/animations";
 
 const ModelSection = () => {
   const [size, setSize] = useState("small");
@@ -49,7 +49,7 @@ const ModelSection = () => {
   },[size]);
 
   useGSAP(() => {
-    gsap.to("#heading", {
+    gsapAnimation('#heading' , {
       opacity: 1,
       y: 0,
     });
@@ -62,7 +62,7 @@ const ModelSection = () => {
           Take a closer look
         </h3>
         <div className="flex flex-col items-center mt-5">
-          <div className="w-full h-[70vh] md:h-[90vh] overflow-hidden relative">
+          <div className="w-full h-[75vh] md:h-[90vh] overflow-hidden relative">
             <Model
               index={1}
               gsapType="view1"
