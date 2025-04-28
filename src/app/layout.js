@@ -1,9 +1,9 @@
-import { Inter } from "next/font/google";
+// import { Inter } from "next/font/google";
 import "./globals.css";
 
-const interFont = Inter({
-  variable: "--font-inter",
-});
+// const interFont = Inter({
+//   variable: "--font-inter",
+// });
 
 
 
@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${interFont.variable} antialiased`}
+        className={`antialiased`}
       >
         {children}
       </body>
