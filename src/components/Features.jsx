@@ -30,7 +30,7 @@ export default function Features() {
 
   return (
     <section className="common-padding bg-zinc-900">
-      <div className="screen-max-widt">
+      <div className="screen-max-width">
         <div className="mb-12 w-full">
           <h3 id="feature-heading" className="section-heading">
             Explore the full story

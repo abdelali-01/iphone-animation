@@ -23,8 +23,6 @@ export default function Model({
     <View
       index={index}
       id={gsapType}
-      track={false}
-      frameloop="demand"
       className={`w-full h-full absolute ${index === 2 ? "right-[-100%]" : ""}`}
     >
       {/* Ambient Light */}
